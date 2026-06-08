@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4 Corners Selector - Full Screen</title>
+  <meta name="description" content="A fun, colorful, full-screen 4 corners selector for classroom games and activities.">
+  
+  <!-- Fun Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-container">
+    <!-- Floating App Header Overlay -->
+    <header class="app-header">
+      <div class="logo-area">
+        <h1>4 Corners</h1>
+      </div>
+      <div class="header-actions">
+        <button id="toggle-sound" class="icon-btn" aria-label="Toggle Sound" title="Toggle Sound">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="icon-speaker">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-waves"></path>
+          </svg>
+        </button>
+        <button id="open-settings" class="icon-btn" aria-label="Settings" title="Configure Corners">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+        <button id="open-history" class="icon-btn" aria-label="View History" title="Spin History">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="12 8 12 12 14 14"></polyline>
+            <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Full-Screen 2x2 Grid Board -->
+    <main class="grid-board" id="grid-board">
+      <!-- Corner 1 (Top Left) -->
+      <div class="corner-box corner-1" id="corner-1" data-corner="1">
+        <div class="corner-glow"></div>
+        <div class="corner-text">1</div>
+      </div>
+
+      <!-- Corner 2 (Top Right) -->
+      <div class="corner-box corner-2" id="corner-2" data-corner="2">
+        <div class="corner-glow"></div>
+        <div class="corner-text">2</div>
+      </div>
+
+      <!-- Corner 3 (Bottom Left) -->
+      <div class="corner-box corner-3" id="corner-3" data-corner="3">
+        <div class="corner-glow"></div>
+        <div class="corner-text">3</div>
+      </div>
+
+      <!-- Corner 4 (Bottom Right) -->
+      <div class="corner-box corner-4" id="corner-4" data-corner="4">
+        <div class="corner-glow"></div>
+        <div class="corner-text">4</div>
+      </div>
+    </main>
+
+    <!-- Absolute Center Spinner Hub -->
+    <div class="spinner-hub">
+      <div class="spinner-outer-ring">
+        <div class="spinner-sectors">
+          <div class="sector-line sector-line-h"></div>
+          <div class="sector-line sector-line-v"></div>
+        </div>
+        <div class="spinner-arrow-wrapper" id="spinner-arrow">
+          <div class="arrow-shadow"></div>
+          <div class="arrow-needle">
+            <div class="arrow-pointer"></div>
+            <div class="arrow-shaft"></div>
+          </div>
+        </div>
+        <button id="spin-button" class="spin-btn">
+          <span class="spin-btn-text">SPIN</span>
+          <span class="spin-btn-glow"></span>
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- Settings Dialog (Modal) -->
+  <dialog id="settings-dialog" class="custom-dialog">
+    <div class="dialog-header">
+      <h2>Configure Corners</h2>
+      <button id="close-settings" class="close-btn" aria-label="Close settings">&times;</button>
+    </div>
+    <form id="settings-form" method="dialog">
+      <div class="dialog-body">
+        <p class="dialog-info">Enter text, numbers, or emojis for each corner:</p>
+        
+        <div class="form-group">
+          <label for="input-c1" class="label-c1">Corner 1 (Top Left)</label>
+          <input type="text" id="input-c1" name="c1" placeholder="1" maxlength="16">
+        </div>
+        
+        <div class="form-group">
+          <label for="input-c2" class="label-c2">Corner 2 (Top Right)</label>
+          <input type="text" id="input-c2" name="c2" placeholder="2" maxlength="16">
+        </div>
+        
+        <div class="form-group">
+          <label for="input-c3" class="label-c3">Corner 3 (Bottom Left)</label>
+          <input type="text" id="input-c3" name="c3" placeholder="3" maxlength="16">
+        </div>
+        
+        <div class="form-group">
+          <label for="input-c4" class="label-c4">Corner 4 (Bottom Right)</label>
+          <input type="text" id="input-c4" name="c4" placeholder="4" maxlength="16">
+        </div>
+
+        <div class="form-group font-setting">
+          <label for="select-text-size">Corner Text Size</label>
+          <select id="select-text-size" name="textSize">
+            <option value="0.6">Small</option>
+            <option value="1.0" selected>Normal</option>
+            <option value="1.4">Large</option>
+            <option value="1.8">Super Size</option>
+          </select>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" id="reset-labels-btn" class="secondary-btn">Reset Defaults</button>
+        <button type="submit" class="primary-btn">Save Changes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- History Dialog (Modal) -->
+  <dialog id="history-dialog" class="custom-dialog">
+    <div class="dialog-header">
+      <h2>Spin History</h2>
+      <button id="close-history" class="close-btn" aria-label="Close history">&times;</button>
+    </div>
+    <div class="dialog-body">
+      <ul id="history-list" class="history-list">
+        <!-- History items will be dynamically generated -->
+        <li class="empty-history">No spins yet. Let's spin the wheel!</li>
+      </ul>
+    </div>
+    <div class="dialog-footer">
+      <button id="clear-history-btn" class="secondary-btn">Clear History</button>
+      <button id="close-history-footer" class="primary-btn">Done</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

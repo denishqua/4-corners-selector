@@ -1,0 +1,14 @@
+{
+  "name": "four-corners-selector",
+  "version": "1.0.0",
+  "description": "Fun and colorful 4 corners selector web application for youth.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
